@@ -69,13 +69,13 @@ Teplota T sa šíri podľa rovnice vedenia tepla (v 1D v smere osi x):
 $$\frac{\partial T}{\partial t} = b \frac{\partial^2 T}{\partial x^2}$$
 
 
-kde $b = 0.0001 \text{ m}^2\text{s}^{-1}$ je difúzny koeficient. Teplota tyče na začiatku je daná rovnicou:
+kde $b = 0,0001 \text{ m}^2\text{s}^{-1}$ je difúzny koeficient. Teplota tyče na začiatku je daná rovnicou:
 $$T(t=0,x) = 20\cos\left(\frac{2\pi x}{5}\right)$$
 
 Potom v potrubí začne prúdiť horúca kvapalina a teplota v tyči začne stúpať.
 Predpokladáme že teplota horúceho konca tyče v $x = 0$ stúpa s časom $t$ podľa rovnice:
 
-$$T(t,x=0) = 30 \tanh(0.005t) + 20$$
+$$T(t,x=0) = 30 \tanh(0,005t) + 20$$
 Teplota na konci tyče v $x = L$ (pri stene) ostáva stále rovnaká $T_s = 20C$.
 
 Na numerické riešenie použite explicitnú FTCS metódu pre hodnoty $\alpha = 0,2; 0,5 a 1$.
@@ -107,30 +107,30 @@ Následne si vyjadríme $T_{i,j+1}$:
 kde $\alpha = \frac{b dt}{dx^2}$. 
 
 
-Pre FCTS metódu platí $\frac{\alpha dt}{dx^2} \leq  \frac{1}{2}$ tzv. podmienka stability. Ak táto podmienka nie je splnená metóda sa stane nestabilnou.
+Pre FCTS metódu platí $\Delta t  \leq  \frac{\Delta x^2 }{2\alpha}$ tzv. podmienka stability. Ak táto podmienka nie je splnená metóda sa stane nestabilnou.\cite{wiki}
 
 \subsection{Výsledky}
-Na Obr.\ref{fig:ftcs} sú zobrazene riešenia pre rôzne hodnoty alfa. Na grafoch je zobrazená teplota v čase pre rôzne body tyče. Farebne sú zobrazené rôzne časy $t$ z intervalu $[0,2000]$. Tie sú konkrétne 0, 500, 1000, 1500 a 2000 podľa zadania. Časový krok je $dt = 1$ a priestorový krok je $dx = 0.1$ pre všetky tri grafy. Na vytvorenie grafov bolo nutné použiť knižnicu qtplot, pretoze octave základná knižnica nevie vykreslovať tak vysoké hodnoty float hodnôt aké sú pre $\alpha = 1$.
+Na Obr.\ref{fig:ftcs} sú zobrazene riešenia pre rôzne hodnoty alfa. Na grafoch je zobrazená teplota v čase pre rôzne body tyče. Farebne sú zobrazené rôzne časy $t$ z intervalu $[0,2000]$. Tie sú konkrétne 0, 500, 1000, 1500 a 2000 podľa zadania. Časový krok je $dt = \frac{dx^2}{2\alpha}$ a priestorový krok je $dx = 0.1$ pre všetky tri grafy. Na vytvorenie grafov bolo nutné použiť knižnicu qtplot, pretoze octave základná knižnica nevie vykreslovať tak vysoké hodnoty float hodnôt aké sú pre $\alpha = 1$.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{hw3pic.png}
+    \includegraphics[width=1\textwidth]{hw3pic_correct.png}
     \caption{Riešenia pre rôzne hodnoty $\alpha$}
     \label{fig:ftcs}
 \end{figure}
 
 
 
-
-
-\subsection{Záver a diskusia}
-Z grafov na Obr. \ref{fig:ftcs} je zrejmé, že pre $\alpha = 0.2$ a $\alpha = 0.5$ sú riešenia stabilné. Pre $\alpha = 1$ je riešenie nestabilné.
- kedže nie je splená podmienka stability $\frac{\del dt}{dx^2} \leq  \frac{1}{2}$. 
-
 \pagebreak
+
+\subsection{Záver a Diskusia}
+Z grafov na Obr. \ref{fig:ftcs} je zrejmé, že pre $\alpha = 0.2$ a $\alpha = 0.5$ sú riešenia stabilné. Pre $\alpha = 1$ je riešenie nestabilné. 
+\bibliographystyle{alpha}
 % Bibliography
-%-----------------------------------------------------------------
+%----------------------------------------------------------
 \begin{thebibliography}{99}
+
 \bibitem{Zukovic}Žukovič, M. (2015) \emph{Počítačová fyzika I} Dostupné z \url{https://ufv.science.upjs.sk/zukovic/download/POF1/Literatura/Pocitacova%20fyzika%20I.pdf}
+\bibitem{wiki} Wikipedia (2019) \emph{Forward Time Centered Space method} Dostupné z \url{https://en.wikipedia.org/wiki/FTCS_scheme}
 \end{thebibliography}
 
 \end{document}
