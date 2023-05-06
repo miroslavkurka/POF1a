@@ -1,10 +1,10 @@
 # author @MiroKurka
 
-f = @(x,y) x/y^3;
+f = @(y,x) x/y^3;# <- HERE is the fix per our discussion, switch variables due to lsode()
 
 
-dx = 0.1;
-#dx = 0.01; #uncomment step for better solution
+#dx = 0.1;
+dx = 0.01; #uncomment step for better solution
 N=10;
 
 
@@ -18,17 +18,6 @@ x(1) = 1;
 y_euler(1) = 1;
 y_Heun(1) = 1;
 
-# <--- PLEASE SEE EMAIL FOR EXPLANATION --->
-# This while loop calculates the solution on interval (1,10) with many x points between
-# NOT ON INTERVAL OF 10 points with dx sized intervals.
-# It takes extreme amount of time
-#while x_i <= N
-#    x(i+1) = x(i) + dx;
-#    y_euler(i+1) = y_euler(i) + dx*f(x(i),y_euler(i));
-#    y_temp = y_Heun(i) + dx*f(x(i),y_Heun(i));
-#    y_Heun(i+1) = y_Heun(i) + 0.5*dx*(f(x(i),y_Heun(i)) + f(x(i+1),y_temp));
-#    y_analytical=exact_solution(x(i));
-#end
 
 for i=1:N
     x(i+1) = x(i) + dx;
@@ -61,7 +50,7 @@ plot(x,y_euler,'-o',x,y_Heun,'-x',x_al,y_analytical);
 xlabel('x');
 ylabel('y');
 title(sprintf('Solution of f = x/y^3 using step dx=%.2f', dx))
-legend('Euler Method', 'Heun Method','Exact solution','Location','southeast');
+legend('Euler Method', 'Heun Method','Analytical solution','Location','southeast');
 
 
 figure() 

@@ -1,5 +1,5 @@
 % author: @miroslavkurka
-
+graphics_toolkit("gnuplot");
 dt = 0.02;
 O_0=1;
 w_0=0.1;
@@ -50,26 +50,17 @@ y_lsode = lsode(@myode, [O_0 w_0], t_lsode);
 
 t = 0:dt:t_final;
 
-
-subplot(3, 1, 1);
-plot(t, X_k(1,:), 'r')
-title('RK metóda')
+t_e = linspace(0, n*dt, n);
+subplot(2, 1, 1);
+plot(t, X_k(1,:), 'r-', t_e, X(1,:), 'b--', t_lsode, y_lsode(:,1), 'g:','linewidth', 2.5);
+title('Porovnanie metód')
 xlabel('Čas');
-ylabel('Uhol');
-legend('O');
+ylabel('Uhol \theta [rad]');
+legend('RK metóda', 'Eulerova metóda', 'lsode() metóda');
 
-t = linspace(0, n*dt, n);
-subplot(3, 1, 2);
-plot(t, X(1,:))
-title('Eulerova metóda')
+subplot(2, 1, 2);
+plot(t, X_k(2,:), 'r-', t_e, X(2,:), 'b--', t_lsode, y_lsode(:,2), 'g:','linewidth', 2.5);
+title('Porovnanie metód')
 xlabel('Čas');
-ylabel('Uhol');
-legend('O');
-
-
-subplot(3, 1, 3);
-plot(t_lsode, y_lsode(:,1), 'g');
-title('lsode() metóda')
-xlabel('Čas');
-ylabel('Uhol');
-legend('O');
+ylabel('Uhlová rýchlosť \omega [rad/s]');
+legend('RK metóda', 'Eulerova metóda', 'lsode() metóda');

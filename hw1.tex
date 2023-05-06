@@ -17,7 +17,7 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{subcaption}
-
+\usepackage{float}
 % Theorems
 %-----------------------------------------------------------------
 \newtheorem{thm}{Theorem}[section]
@@ -97,7 +97,7 @@ $$y_{n+1} = y_n + h_n/2 (k_1+k_2)$$
 V našej implementácií najprv inicializujeme funkciu ktorú chceme aproximovať a počet bodov N=10 zo zadania\footnote{Zo zadania mi nebolo celkom jasné či ide o [1,10] v zmysle matlab poľa tj. 10 bodov alebo interval v matematike viz. matlab zdrojak.} . Následne zavedieme krok intervalu v našom prípade dx\footnote{značenie ponechávame podľa cvičení} v teórii vyššie je to $h$. Potom nastavíme polia na ukladanie hodnôt pre body $x$ a pre výsledky v bodoch $x$ pre rekurentné vzťahy Eulerovej, Heuneho metóde a pre analytické riešenie diferenciálnej rovnice. Podľa zadania nastavíme prvý bod 1 a funkčnú hodnotu pre všetky prípady tiež ako 1. Vo for slučke v každom kroku aktualizujeme hodnotu bodu $x(i+1)$ o krok $dx$ tj. Vypočítame nasledujúci bod. Ďalej sa podľa vzorca Eulerovej metódy z teórie vypočíta hodnota riešenia $y\_(euler)(i+1)$. K výpočtu Heuneho metódy potrebujeme hodnoty $k_1$ a $k_2$. Pre prehľadnosť riešenia sa inicializuje $y\_temp$ = $k_2$ . Tato predpočítaná hodnota je následne dosadená do rekurentného vzťahu Heuneho metódy pre bod $x\_i$. Ako posledný krok sa vypočíta hodnota exaktného riešenia dif. rovnice pre následne porovnanie. Všetky hodnoty sa ukladajú do poli, ktoré sme si pripravili. 
 \subsection{Výsledky}
 Na Obr.\ref{fig:dx01} sú zobrazene riešenia pre väčší krok intervalu. Z grafu vidíme, že Eulerova metóda pri intervale 10 bodov kde podintervaly sú väčšie ma vyššiu chybu aproximácie ako Heuneho metóda.
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{dx01.png}
   \caption{Graf riešenií metód s krokom dx=0.1}
@@ -105,18 +105,25 @@ Na Obr.\ref{fig:dx01} sú zobrazene riešenia pre väčší krok intervalu. Z gr
 \end{figure}
 
 Z Obr.\ref{fig:dx001} je zrejmé, že pri zväčšení kroku intervalu sa aproximácia pomocou Eulerovej metódy zlepšila a to z dôvodu, že veľkosti podintervalov v intervale 10 bodov sa výrazne zmenšili. Avšak opäť Heuneho metóda poskytuje presnejšie riešenie. Tento výsledok je zrejmý z teórie.
-\begin{figure}
+\begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{dx001.png}
+  \includegraphics[width=1\textwidth]{hw1_grph5dx001.png}
   \caption{Graf riešenií metód s krokom dx=0.01}
   \label{fig:dx001}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{hw1_grp3.png}
+  \caption{Porovnanie analytického a lsode() riešenia s krokom dx=0.1}
+  \label{fig:lsodeexact}
+\end{figure}
 
-\begin{figure}[h]
+V grafe \ref{fig:lsodeexact}, vidíme že analytické riešenie je totožné s výsledkom vstavanehj funkcie lsode().
+\begin{figure}[H]
   \centering
   \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{lsode01.png}
+    \includegraphics[width=\textwidth]{hw1_gpr4.png}
     \caption{Vysoká odchylka pri kroku intervalu 0.1}
   \end{subfigure}
   \hfill
@@ -124,26 +131,31 @@ Z Obr.\ref{fig:dx001} je zrejmé, že pri zväčšení kroku intervalu sa aproxi
     \includegraphics[width=\textwidth]{lsode.png}
     \caption{Nízka odchylka pri kroku intervalu 0.01}
   \end{subfigure}
-  \caption{Porovnanie lsode() a analytického riešenia s rozlyčnými krokmi intervalu}
+ 
+  \caption{Porovnanie lsode(), Euler a Heuneho riešenia s rozlyčnými krokmi intervalu}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{analytical.png}
-    \caption{Krok intervalu 0.1 vykazuje vyššiu chybu}
+    \includegraphics[width=\textwidth]{hw1_grp3.png}
+    \caption{Analytické a lsode() riešenie pri kroku intervalu 0.1} 
+    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{analytical_pre.png}
-    \caption{Krok intervalu 0.01 vykazuje lepšiu aproximáciu}
+    \caption{Analytické a lsode() riešenie pri kroku intervalu 0.01}
   \end{subfigure}
   \caption{Porovnanie lsode() a analytického riešenia s rozlyčnými krokmi intervalu}
   \label{fig:analyticallsode}
 \end{figure}
-Pri riešení diferenciálnej rovnice pomocou vstavenej metódy $lsode()$ je pri kroku $dx=0.01$ riešenie takmer totožné s Heuneho a Eulerovou metódou. Pri zväčšení kroku avšak nastáva vysoká chyba medzi riešeniami. V grafe na Obr. \ref{fig:analyticallsode} vidíme porovnanie analytického riešenia a $lsode()$ pri kroku $dx=0.1$, ktoré sa tiež výrazne líšia. Dôvodom môže byt zle použitie funkcie lsode() v kóde alebo chyba nasej implementácie. 
+Pri riešení diferenciálnej rovnice pomocou vstavenej metódy $lsode()$ je pri kroku $dx=0.01$ riešenie takmer totožné s Heuneho a Eulerovou metódou. Pri zväčšení kroku avšak nastáva odchylka medzi riešeniami. V grafe na Obr. \ref{fig:analyticallsode} vidíme porovnanie analytického riešenia a $lsode()$ pri kroku $dx=0.1$ a $dx=0.01$ , ktoré sú skoro totožné.
 
-\pagebreak
+
+
+
+
 
 
 
