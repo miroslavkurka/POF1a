@@ -62,34 +62,26 @@ title('Graf závislosti MC hodnot s chybami na počte vzoriek M (STD chyba)');
 # Uloha b) 
 
 
-M_values = [ 10 100 1000 10000 100000]; # PRE VELKE M PROGRAM BERIE VELA CPU 
-I_estimates = cell(1,length(M_values)); 
-sigma_m= zeros(length(M_values),1)
-N_seed= 100;
-for i = 1:length(M_values)
-    M = M_values(i) # počet bodov pre odhad
-    sum_of_func=0;
-    I_100=zeros(N_seed,1);
-  
-    for  j=1:N_seed
-      # sto odhadov integralu pre kazde M 
-      
-      # toto je suma od 1 po M v mc odhade (b-a)/M Suma f(nahodne cislo)
-      for k=1:M
-        x= rand(); # netreba seed podla webu so seed to nefunguje 
-        sum_of_func+= f(x);
-      endfor 
-      I_100(j)= (b - a)/M * sum_of_func;
-      sum_of_func=0;
-    endfor
-    I_100;
-    I_estimates{i} = I_100 ;# prirad 100 integralov pre hodnotu M 
+M_values = [10, 100, 1000, 10000, 100000];
+I_estimates = cell(1, length(M_values));
+sigma_m = zeros(length(M_values), 1);
+N_seed = 100;
 
-    # Vzorec zo zadania
-    sigma_m(i) = sqrt(1/N_seed * sum(I_estimates{i}.^2) - (1/N_seed * (sum(I_estimates{i}))**2));
-   
+for i = 1:length(M_values)
+    M = M_values(i);
+    sum_of_func = 0;
+    I_100 = zeros(N_seed, 1);
+    interval = (b - a) / M;
+    % Vektorizacia funkcie z tutorialu kvoli rychlosti
     
+    for j = 1:N_seed
+        x = rand(1, M);  
+        sum_of_func = sum(f(x)); 
+        I_100(j) = interval * sum_of_func;
+    end
     
+    I_estimates{i} = I_100;
+    sigma_m(i) = sqrt(1 / N_seed * sum(I_estimates{i}.^2) - (1 / N_seed * sum(I_estimates{i}))^2);
 end
 sigma_m
 logM2=log10(M_values);
@@ -97,9 +89,18 @@ figure;
 true_sigma
 plot(logM2, log10(sigma_m), logM2, log10(true_sigma));
 xlabel('log(M)');
-ylabel('log(\sigma M )');
-title('Graf závislosti \sigma M a hodnot M v log skale');
+ylabel('Chyby');
+
+title('Graf závislosti chýb a hodnot M v log skale');
+
+hold on;
 
 
+x_range = [min(logM2), max(logM2)];
+y_range = (x_range +2) * (-0.5);
+plot(x_range, y_range, '--', 'Color', 'red');
+
+hold off;
 
 
+legend('log(\sigma M)', 'log(STD)','Priamka (k = -0.5)');

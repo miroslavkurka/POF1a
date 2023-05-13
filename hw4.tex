@@ -96,7 +96,7 @@ takže môžete fitovať dáta priamkou so smernicou -0.5. Odovzdajte program a 
 
 \subsection{Teória}\label{sec:nothing}
 
-Výpočet integralú pomocou MC metódy je založený na náhodnom výbere bodov z oblasti, ktorú chceme integrovať. V našom prípade je to oblasť $[0,1]$. Výpočet je založený na nasledujúcom vzorci:
+Výpočet integralú pomocou MC metódy je založený na náhodnom výbere bodov z oblasti, ktorú chceme integrovať\cite{Zukovic}. V našom prípade je to oblasť $[0,1]$. Výpočet je založený na nasledujúcom vzorci:
 \begin{equation}
     \int_{a}^{b} f(x) dx = (b-a) \frac{1}{N} \sum_{i=1}^{N} f(x_i)
 \end{equation}
@@ -113,18 +113,25 @@ kde $x_i$ je náhodná premenná z oblasti $[a,b]$, $N$ je velkosť vzorky (poč
     \label{fig:mc}
 \end{figure}
 
-\begin{figure}
+Graf \ref{fig:mc} ukazuje hodnoty odhadu integralú z úlohy a) pre veľkosti vzoriek $M = 10, 10^2, 10^3, 10^4 a 10^5$ s neskresleným odhadom štandardnej odchýlky. Na osi x je logaritmus veľkosti vzorky M a na osi y je hodnota integralú. "Error bar" zobrazuje hodnotu štandardnej odchýlky.
+
+\begin{figure}[H]
     \centering
 
-    \includegraphics[width=1\textwidth]{hw4stdgraph2.png}
+    \includegraphics[width=1\textwidth]{hw4chyby.png}
+    \caption{Chyba $\sigma_M$ v logaritmickej škále pre veľkosti vzoriek $M = 10, 10^2, 10^3, 10^4 a 10^5$ spolu s neskresleným odhadom (taktiež log škále) z úlohy \textbf{a)}.}
     \label{second}
+
 \end{figure}
 
+V Obr. \ref{second} sú vynesené hodnoty logaritmu odchýlky $\sigma_M$ ako funkcie logaritmu veľkosti vzorky M pre $M = 10, 10^2, 10^3, 10^4 a 10^5$ spolu s jej neskresleným odhadom z úlohy \textbf{a)}. Hodnoty sú následne fitované priamkou so sklonom -0.5.
 
 \subsection{Záver a Diskusia}
 V grafe \ref{fig:mc} je vidieť, že s vyššim počtom vzoriek M tj. nahodných bodov vyhodnotených sa odhad integrálu približuje reálnej hodnote integrálu $\frac{\pi}{2} * \ln{2}$. Taktiež je vidieť, že štandardná odchýlka sa znižuje s vyššim počtom vzoriek M.   
 
-Graf \ref{second}
+
+
+Graf \ref{second} zobrazuje neskresleného odhadu chyby a hodnoty $\sigma_M$. Je zrejmé, že ich rozptyl je veľmi podobný. Chyby klesájú ako $\sigma_M=\frac{C}{\sqrt{M}}$, kde C je štandardná odchýlka celej populácie. Preto je možné fitovať dáta priamkou so smernicou -0.5.
 
 \bibliographystyle{alpha}
 % Bibliography
@@ -132,7 +139,6 @@ Graf \ref{second}
 \begin{thebibliography}{99}
 
 \bibitem{Zukovic}Žukovič, M. (2015) \emph{Počítačová fyzika I} Dostupné z \url{https://ufv.science.upjs.sk/zukovic/download/POF1/Literatura/Pocitacova%20fyzika%20I.pdf}
-\bibitem{wiki} Wikipedia (2019) \emph{Forward Time Centered Space method} Dostupné z \url{https://en.wikipedia.org/wiki/FTCS_scheme}
 \end{thebibliography}
 
 \end{document}
