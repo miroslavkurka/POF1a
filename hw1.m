@@ -1,11 +1,11 @@
 # author @MiroKurka
 
-f = @(y,x) x/y^3;# <- HERE is the fix per our discussion, switch variables due to lsode()
+f = @(y,x) x/y^3;
 
 
-#dx = 0.1;
-dx = 0.01; #uncomment step for better solution
-N=10;
+dx = 0.1;
+#dx = 0.01; #uncomment step for better solution
+N=9; #<-- ZMENA 
 
 
 x = zeros(N+1,1);
@@ -19,12 +19,14 @@ y_euler(1) = 1;
 y_Heun(1) = 1;
 
 
-for i=1:N
+for i=1:N+1 #<-- ZMENA 
     x(i+1) = x(i) + dx;
     y_euler(i+1) = y_euler(i) + dx*f(x(i),y_euler(i));
     y_temp = y_Heun(i) + dx*f(x(i),y_Heun(i));
     y_Heun(i+1) = y_Heun(i) + 0.5*dx*(f(x(i),y_Heun(i)) + f(x(i+1),y_temp));
-    #y_analytical=exact_solution(x(i)); doesnt work
+    if x(i+1) >= 10 #<-- ZMENA 
+        break;
+    end
 end
 
 % Solve the differential equation using lsode()
@@ -46,7 +48,7 @@ title(sprintf('Solution of f = x/y^3 using step dx=%.2f', dx))
 legend('Analytical solution','lsode()','Location','southeast');
 
 figure() 
-plot(x,y_euler,'-o',x,y_Heun,'-x',x_al,y_analytical);
+plot(x,y_euler,'-o',x,y_Heun,'-x')#,x_al,y_analytical);
 xlabel('x');
 ylabel('y');
 title(sprintf('Solution of f = x/y^3 using step dx=%.2f', dx))

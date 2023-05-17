@@ -25,6 +25,7 @@ T(:,1) = 20*cos(2*pi*x/5); % teplota tyce na zaciatku
 for a = 1:length(alphas)
     alpha = alphas(a);
     dt = dx**2/(2*alpha);
+    nt = round(2000./dt) + 1;
   for j = 2:nt
       
       T(1,j) = 30*tanh(0.005*(j-1)*dt) + 20; % teplota horuceho konca tyce 
